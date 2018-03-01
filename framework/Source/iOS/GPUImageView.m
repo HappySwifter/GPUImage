@@ -34,7 +34,7 @@
 - (void)destroyDisplayFramebuffer;
 
 // Handling fill mode
-- (void)recalculateViewGeometry;
+- (void)recalculateViewGeometry:(CGSize)size;
 
 @end
 
@@ -141,7 +141,7 @@
             [self createDisplayFramebuffer];
         });
     } else if (!CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
-        [self recalculateViewGeometry];
+        [self recalculateViewGeometry:self.bounds.size];
     }
 }
 
@@ -189,7 +189,7 @@
     NSAssert(framebufferCreationStatus == GL_FRAMEBUFFER_COMPLETE, @"Failure with display framebuffer generation for display of size: %f, %f", self.bounds.size.width, self.bounds.size.height);
     boundsSizeAtFrameBufferEpoch = self.bounds.size;
 
-    [self recalculateViewGeometry];
+    [self recalculateViewGeometry:self.bounds.size];
 }
 
 - (void)destroyDisplayFramebuffer;
@@ -230,17 +230,15 @@
 #pragma mark -
 #pragma mark Handling fill mode
 
-- (void)recalculateViewGeometry;
+- (void)recalculateViewGeometry:(CGSize)size;
 {
     runSynchronouslyOnVideoProcessingQueue(^{
         CGFloat heightScaling, widthScaling;
-        
-        CGSize currentViewSize = self.bounds.size;
-        
+        CGSize currentViewSize = size;
         //    CGFloat imageAspectRatio = inputImageSize.width / inputImageSize.height;
         //    CGFloat viewAspectRatio = currentViewSize.width / currentViewSize.height;
         
-        CGRect insetRect = AVMakeRectWithAspectRatioInsideRect(inputImageSize, self.bounds);
+        CGRect insetRect = AVMakeRectWithAspectRatioInsideRect(inputImageSize, CGRectMake(0, 0, size.width, size.height));
         
         switch(_fillMode)
         {
@@ -387,7 +385,7 @@
         
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         
-        [self presentFramebuffer];
+        [self presentFramebuffer];  // Отобразить на UIView
         [inputFramebufferForDisplay unlock];
         inputFramebufferForDisplay = nil;
     });
@@ -423,7 +421,7 @@
         if (!CGSizeEqualToSize(inputImageSize, rotatedSize))
         {
             inputImageSize = rotatedSize;
-            [self recalculateViewGeometry];
+        [self recalculateViewGeometry:newSize];
         }
     });
 }
@@ -478,7 +476,7 @@
 - (void)setFillMode:(GPUImageFillModeType)newValue;
 {
     _fillMode = newValue;
-    [self recalculateViewGeometry];
+    [self recalculateViewGeometry:_sizeInPixels];
 }
 
 @end

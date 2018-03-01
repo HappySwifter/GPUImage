@@ -56,6 +56,7 @@ void setColorConversion709( GLfloat conversionMatrix[9] )
 @synthesize delegate = _delegate;
 @synthesize horizontallyMirrorFrontFacingCamera = _horizontallyMirrorFrontFacingCamera, horizontallyMirrorRearFacingCamera = _horizontallyMirrorRearFacingCamera;
 @synthesize frameRate = _frameRate;
+@synthesize rotatedImageBufferWidth, rotatedImageBufferHeight;
 
 #pragma mark -
 #pragma mark Initialization and teardown
@@ -716,7 +717,8 @@ void setColorConversion709( GLfloat conversionMatrix[9] )
                 [self convertYUVToRGBOutput];
 //            }
 
-            int rotatedImageBufferWidth = bufferWidth, rotatedImageBufferHeight = bufferHeight;
+            rotatedImageBufferWidth = bufferWidth;
+            rotatedImageBufferHeight = bufferHeight;
             
             if (GPUImageRotationSwapsWidthAndHeight(internalRotation))
             {

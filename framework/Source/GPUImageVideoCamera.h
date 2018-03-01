@@ -43,6 +43,9 @@ void setColorConversion709( GLfloat conversionMatrix[9] );
     __unsafe_unretained id<GPUImageVideoCameraDelegate> _delegate;
 }
 
+@property (readwrite) int rotatedImageBufferWidth;
+@property (readwrite) int rotatedImageBufferHeight;
+
 /// Whether or not the underlying AVCaptureSession is running
 @property(readonly, nonatomic) BOOL isRunning;
 
