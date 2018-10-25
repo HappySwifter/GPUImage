@@ -240,15 +240,15 @@
 
 - (GLubyte *)rawBytesForImage;
 {
-    if ( (_rawBytesForImage == NULL) && (![GPUImageContext supportsFastTextureUpload]) )
+    if ( (self->_rawBytesForImage == NULL) && (![GPUImageContext supportsFastTextureUpload]) )
     {
-        _rawBytesForImage = (GLubyte *) calloc(imageSize.width * imageSize.height * 4, sizeof(GLubyte));
-        hasReadFromTheCurrentFrame = NO;
+        self->_rawBytesForImage = (GLubyte *) calloc(imageSize.width * imageSize.height * 4, sizeof(GLubyte));
+        self->hasReadFromTheCurrentFrame = NO;
     }
 
-    if (hasReadFromTheCurrentFrame)
+    if (self->hasReadFromTheCurrentFrame)
     {
-        return _rawBytesForImage;
+        return self->_rawBytesForImage;
     }
     else
     {
@@ -261,20 +261,20 @@
             if ([GPUImageContext supportsFastTextureUpload])
             {
                 glFinish();
-                _rawBytesForImage = [outputFramebuffer byteBuffer];
+                self->_rawBytesForImage = [self->outputFramebuffer byteBuffer];
             }
             else
             {
-                glReadPixels(0, 0, imageSize.width, imageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, _rawBytesForImage);
+                glReadPixels(0, 0, self->imageSize.width, self->imageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, self->_rawBytesForImage);
                 // GL_EXT_read_format_bgra
                 //            glReadPixels(0, 0, imageSize.width, imageSize.height, GL_BGRA_EXT, GL_UNSIGNED_BYTE, _rawBytesForImage);
             }
           
-            hasReadFromTheCurrentFrame = YES;
+            self->hasReadFromTheCurrentFrame = YES;
 
         });
         
-        return _rawBytesForImage;
+        return self->_rawBytesForImage;
     }
 }
 

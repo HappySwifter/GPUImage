@@ -163,20 +163,20 @@ NSString *const kGPUImageColourFASTSamplingFragmentShaderString = SHADER_STRING
 {
     if (!hasOverriddenImageSizeFactor)
     {
-        _texelWidth = 1.0 / filterFrameSize.width;
-        _texelHeight = 1.0 / filterFrameSize.height;
+        self->_texelWidth = 1.0 / filterFrameSize.width;
+        self->_texelHeight = 1.0 / filterFrameSize.height;
         
         runSynchronouslyOnVideoProcessingQueue(^{
-            [GPUImageContext setActiveShaderProgram:filterProgram];
-            if (GPUImageRotationSwapsWidthAndHeight(inputRotation))
+            [GPUImageContext setActiveShaderProgram:self->filterProgram];
+            if (GPUImageRotationSwapsWidthAndHeight(self->inputRotation))
             {
-                glUniform1f(texelWidthUniform, _texelHeight);
-                glUniform1f(texelHeightUniform, _texelWidth);
+                glUniform1f(self->texelWidthUniform, self->_texelHeight);
+                glUniform1f(self->texelHeightUniform, self->_texelWidth);
             }
             else
             {
-                glUniform1f(texelWidthUniform, _texelWidth);
-                glUniform1f(texelHeightUniform, _texelHeight);
+                glUniform1f(self->texelWidthUniform, self->_texelWidth);
+                glUniform1f(self->texelHeightUniform, self->_texelHeight);
             }
         });
     }
@@ -187,18 +187,18 @@ NSString *const kGPUImageColourFASTSamplingFragmentShaderString = SHADER_STRING
 
 - (void)setTexelWidth:(CGFloat)newValue;
 {
-    hasOverriddenImageSizeFactor = YES;
-    _texelWidth = newValue;
+    self->hasOverriddenImageSizeFactor = YES;
+    self->_texelWidth = newValue;
     
-    [self setFloat:_texelWidth forUniform:texelWidthUniform program:filterProgram];
+    [self setFloat:self->_texelWidth forUniform:self->texelWidthUniform program:self->filterProgram];
 }
 
 - (void)setTexelHeight:(CGFloat)newValue;
 {
-    hasOverriddenImageSizeFactor = YES;
-    _texelHeight = newValue;
+    self->hasOverriddenImageSizeFactor = YES;
+    self->_texelHeight = newValue;
     
-    [self setFloat:_texelHeight forUniform:texelHeightUniform program:filterProgram];
+    [self setFloat:self->_texelHeight forUniform:self->texelHeightUniform program:self->filterProgram];
 }
 
 @end

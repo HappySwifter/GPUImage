@@ -51,7 +51,7 @@ void reportAvailableMemoryForGPUImage(NSString *tag);
     BOOL allTargetsWantMonochromeData;
     BOOL usingNextFrameForImageCapture;
 }
-
+@property(readonly, nonatomic) BOOL usingNextFrameForImageCapture;
 @property(readwrite, nonatomic) BOOL shouldSmoothlyScaleOutput;
 @property(readwrite, nonatomic) BOOL shouldIgnoreUpdatesToThisTarget;
 @property(readwrite, nonatomic, retain) GPUImageMovieWriter *audioEncodingTarget;

@@ -56,10 +56,10 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
         
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageContext useImageProcessingContext];
-        filterSecondTextureCoordinateAttribute = [filterProgram attributeIndex:@"inputTextureCoordinate2"];
+        self->filterSecondTextureCoordinateAttribute = [self->filterProgram attributeIndex:@"inputTextureCoordinate2"];
         
-        filterInputTextureUniform2 = [filterProgram uniformIndex:@"inputImageTexture2"]; // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
-        glEnableVertexAttribArray(filterSecondTextureCoordinateAttribute);
+        self->filterInputTextureUniform2 = [self->filterProgram uniformIndex:@"inputImageTexture2"]; // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
+        glEnableVertexAttribArray(self->filterSecondTextureCoordinateAttribute);
     });
     
     return self;
@@ -68,17 +68,17 @@ NSString *const kGPUImageTwoInputTextureVertexShaderString = SHADER_STRING
 - (void)initializeAttributes;
 {
     [super initializeAttributes];
-    [filterProgram addAttribute:@"inputTextureCoordinate2"];
+    [self->filterProgram addAttribute:@"inputTextureCoordinate2"];
 }
 
 - (void)disableFirstFrameCheck;
 {
-    firstFrameCheckDisabled = YES;
+    self->firstFrameCheckDisabled = YES;
 }
 
 - (void)disableSecondFrameCheck;
 {
-    secondFrameCheckDisabled = YES;
+    self->secondFrameCheckDisabled = YES;
 }
 
 #pragma mark -

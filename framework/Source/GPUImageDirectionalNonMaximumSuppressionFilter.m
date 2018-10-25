@@ -92,13 +92,13 @@ NSString *const kGPUImageDirectionalNonmaximumSuppressionFragmentShaderString = 
 {
     if (!hasOverriddenImageSizeFactor)
     {
-        _texelWidth = 1.0 / filterFrameSize.width;
-        _texelHeight = 1.0 / filterFrameSize.height;
+        self->_texelWidth = 1.0 / filterFrameSize.width;
+        self->_texelHeight = 1.0 / filterFrameSize.height;
         
         runSynchronouslyOnVideoProcessingQueue(^{
-            [GPUImageContext setActiveShaderProgram:filterProgram];
-            glUniform1f(texelWidthUniform, _texelWidth);
-            glUniform1f(texelHeightUniform, _texelHeight);
+            [GPUImageContext setActiveShaderProgram:self->filterProgram];
+            glUniform1f(self->texelWidthUniform, self->_texelWidth);
+            glUniform1f(self->texelHeightUniform, self->_texelHeight);
         });
     }
 }
@@ -108,23 +108,23 @@ NSString *const kGPUImageDirectionalNonmaximumSuppressionFragmentShaderString = 
 
 - (void)setTexelWidth:(CGFloat)newValue;
 {
-    hasOverriddenImageSizeFactor = YES;
-    _texelWidth = newValue;
+    self->hasOverriddenImageSizeFactor = YES;
+    self->_texelWidth = newValue;
     
-    [self setFloat:_texelWidth forUniform:texelWidthUniform program:filterProgram];
+    [self setFloat:self->_texelWidth forUniform:texelWidthUniform program:self->filterProgram];
 }
 
 - (void)setTexelHeight:(CGFloat)newValue;
 {
     hasOverriddenImageSizeFactor = YES;
-    _texelHeight = newValue;
+    self->_texelHeight = newValue;
     
-    [self setFloat:_texelHeight forUniform:texelHeightUniform program:filterProgram];
+    [self setFloat:self->_texelHeight forUniform:texelHeightUniform program:self->filterProgram];
 }
 
 - (void)setLowerThreshold:(CGFloat)newValue;
 {
-    _lowerThreshold = newValue;
+    self->_lowerThreshold = newValue;
     
     [self setFloat:_lowerThreshold forUniform:lowerThresholdUniform program:filterProgram];
 }

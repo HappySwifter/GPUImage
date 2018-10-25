@@ -93,23 +93,23 @@
 
 		CGSize pixelSizeOfImage = [self outputImageSize];
     
-		for (id<GPUImageInput> currentTarget in targets)
+		for (id<GPUImageInput> currentTarget in self->targets)
 		{
-			NSInteger indexOfObject = [targets indexOfObject:currentTarget];
-			NSInteger textureIndexOfTarget = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
+			NSInteger indexOfObject = [self->targets indexOfObject:currentTarget];
+			NSInteger textureIndexOfTarget = [[self->targetTextureIndices objectAtIndex:indexOfObject] integerValue];
         
 			[currentTarget setInputSize:pixelSizeOfImage atIndex:textureIndexOfTarget];
-            [currentTarget setInputFramebuffer:outputFramebuffer atIndex:textureIndexOfTarget];
+            [currentTarget setInputFramebuffer:self->outputFramebuffer atIndex:textureIndexOfTarget];
 			[currentTarget newFrameReadyAtTime:kCMTimeInvalid atIndex:textureIndexOfTarget];
 		}
 	
-		dispatch_semaphore_signal(dataUpdateSemaphore);
+		dispatch_semaphore_signal(self->dataUpdateSemaphore);
 	});
 }
 
 - (void)processDataForTimestamp:(CMTime)frameTime;
 {
-	if (dispatch_semaphore_wait(dataUpdateSemaphore, DISPATCH_TIME_NOW) != 0)
+	if (dispatch_semaphore_wait(self->dataUpdateSemaphore, DISPATCH_TIME_NOW) != 0)
     {
         return;
     }
@@ -118,16 +118,16 @@
         
 		CGSize pixelSizeOfImage = [self outputImageSize];
         
-		for (id<GPUImageInput> currentTarget in targets)
+		for (id<GPUImageInput> currentTarget in self->targets)
 		{
-			NSInteger indexOfObject = [targets indexOfObject:currentTarget];
-			NSInteger textureIndexOfTarget = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
+			NSInteger indexOfObject = [self->targets indexOfObject:currentTarget];
+			NSInteger textureIndexOfTarget = [[self->targetTextureIndices objectAtIndex:indexOfObject] integerValue];
             
 			[currentTarget setInputSize:pixelSizeOfImage atIndex:textureIndexOfTarget];
 			[currentTarget newFrameReadyAtTime:frameTime atIndex:textureIndexOfTarget];
 		}
         
-		dispatch_semaphore_signal(dataUpdateSemaphore);
+		dispatch_semaphore_signal(self->dataUpdateSemaphore);
 	});
 }
 

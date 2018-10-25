@@ -16,6 +16,7 @@ FOUNDATION_EXPORT const unsigned char GPUImageFrameworkVersionString[];
 #import <GPUImage/GPUImageStillCamera.h>
 #import <GPUImage/GPUImageMovie.h>
 #import <GPUImage/GPUImagePicture.h>
+#import <GPUImage/GPUImageGIF.h>
 #import <GPUImage/GPUImageRawDataInput.h>
 #import <GPUImage/GPUImageRawDataOutput.h>
 #import <GPUImage/GPUImageMovieWriter.h>

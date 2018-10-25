@@ -55,10 +55,10 @@ NSString *const kGPUImageThreeInputTextureVertexShaderString = SHADER_STRING
     
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageContext useImageProcessingContext];
-        filterThirdTextureCoordinateAttribute = [filterProgram attributeIndex:@"inputTextureCoordinate3"];
+        self->filterThirdTextureCoordinateAttribute = [self->filterProgram attributeIndex:@"inputTextureCoordinate3"];
         
-        filterInputTextureUniform3 = [filterProgram uniformIndex:@"inputImageTexture3"]; // This does assume a name of "inputImageTexture3" for the third input texture in the fragment shader
-        glEnableVertexAttribArray(filterThirdTextureCoordinateAttribute);
+        self->filterInputTextureUniform3 = [self->filterProgram uniformIndex:@"inputImageTexture3"]; // This does assume a name of "inputImageTexture3" for the third input texture in the fragment shader
+        glEnableVertexAttribArray(self->filterThirdTextureCoordinateAttribute);
     });
     
     return self;
@@ -67,12 +67,12 @@ NSString *const kGPUImageThreeInputTextureVertexShaderString = SHADER_STRING
 - (void)initializeAttributes;
 {
     [super initializeAttributes];
-    [filterProgram addAttribute:@"inputTextureCoordinate3"];
+    [self->filterProgram addAttribute:@"inputTextureCoordinate3"];
 }
 
 - (void)disableThirdFrameCheck;
 {
-    thirdFrameCheckDisabled = YES;
+    self->thirdFrameCheckDisabled = YES;
 }
 
 #pragma mark -

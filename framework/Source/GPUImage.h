@@ -8,6 +8,7 @@
 #import "GPUImageStillCamera.h"
 #import "GPUImageMovie.h"
 #import "GPUImagePicture.h"
+#import "GPUImageGIF.h"
 #import "GPUImageRawDataInput.h"
 #import "GPUImageRawDataOutput.h"
 #import "GPUImageMovieWriter.h"
