@@ -10,6 +10,7 @@
 
 extern NSString *const kGPUImageVertexShaderString;
 extern NSString *const kGPUImagePassthroughFragmentShaderString;
+@property(readonly) dispatch_semaphore_t imageCaptureSemaphore;
 
 struct GPUVector4 {
     GLfloat one;
