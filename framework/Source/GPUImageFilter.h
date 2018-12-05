@@ -10,7 +10,6 @@
 
 extern NSString *const kGPUImageVertexShaderString;
 extern NSString *const kGPUImagePassthroughFragmentShaderString;
-@property(readonly) dispatch_semaphore_t imageCaptureSemaphore;
 
 struct GPUVector4 {
     GLfloat one;
@@ -69,6 +68,7 @@ typedef struct GPUMatrix3x3 GPUMatrix3x3;
 @property(readonly) CVPixelBufferRef renderTarget;
 @property(readwrite, nonatomic) BOOL preventRendering;
 @property(readwrite, nonatomic) BOOL currentlyReceivingMonochromeInput;
+@property(readonly) dispatch_semaphore_t imageCaptureSemaphore;
 
 /// @name Initialization and teardown
 
